@@ -3774,7 +3774,6 @@ modules:
         expected_output:
           - CEntityInstance_DrawDebugTextOverlays.{platform}.yaml
         expected_input:
-          - CEntityInstance_vtable.{platform}.yaml
           - CBaseEntity_DrawDebugTextOverlays.{platform}.yaml
 
       - name: find-CEntityInstance_Connect
