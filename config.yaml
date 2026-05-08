@@ -3783,6 +3783,12 @@ modules:
         expected_input:
           - CBaseEntity_DrawDebugTextOverlays.{platform}.yaml
 
+      - name: find-CEntityInstance_PostDataUpdate
+        expected_output:
+          - CEntityInstance_PostDataUpdate.{platform}.yaml
+        expected_input:
+          - CBaseEntity_PostDataUpdate.{platform}.yaml
+
       - name: find-CEntityInstance_Connect
         expected_output:
           - CEntityInstance_Connect.{platform}.yaml
@@ -5739,6 +5745,11 @@ modules:
         category: vfunc
         alias:
           - CEntityInstance::DrawDebugTextOverlays
+
+      - name: CEntityInstance_PostDataUpdate
+        category: vfunc
+        alias:
+          - CEntityInstance::PostDataUpdate
 
       - name: CEntityInstance_Connect
         category: vfunc
