@@ -4077,6 +4077,22 @@ modules:
         expected_input:
           - CPlayerCommandQueue_vtable.{platform}.yaml
 
+      - name: find-CEntitySaveRestoreBlockHandler_vtable
+        expected_output:
+          - CEntitySaveRestoreBlockHandler_vtable.{platform}.yaml
+
+      - name: find-CEntitySaveRestoreBlockHandler_SaveInternal
+        expected_output:
+          - CEntitySaveRestoreBlockHandler_SaveInternal.{platform}.yaml
+
+      - name: find-CBaseEntity_ObjectCaps-AND-CBaseEntity_Save
+        expected_output:
+          - CBaseEntity_ObjectCaps.{platform}.yaml
+          - CBaseEntity_Save.{platform}.yaml
+        expected_input:
+          - CEntitySaveRestoreBlockHandler_SaveInternal.{platform}.yaml
+          - CBaseEntity_vtable.{platform}.yaml
+
     symbols:
       - name: CSource2Server_vtable
         category: vtable
@@ -4240,6 +4256,24 @@ modules:
 
       - name: CBaseEntity_vtable
         category: vtable
+
+      - name: CEntitySaveRestoreBlockHandler_vtable
+        category: vtable
+
+      - name: CEntitySaveRestoreBlockHandler_SaveInternal
+        category: func
+        alias:
+          - CEntitySaveRestoreBlockHandler::SaveInternal
+
+      - name: CBaseEntity_ObjectCaps
+        category: vfunc
+        alias:
+          - CBaseEntity::ObjectCaps
+
+      - name: CBaseEntity_Save
+        category: vfunc
+        alias:
+          - CBaseEntity::Save
 
       - name: CGameSceneNode_vtable
         category: vtable
