@@ -1393,6 +1393,10 @@ modules:
         expected_output:
           - CLoopModeGame_vtable.{platform}.yaml
 
+      - name: find-CEntityInstance_vtable
+        expected_output:
+          - CEntityInstance_vtable.{platform}.yaml
+
       - name: find-CLoopModeGame_OnLoopActivate
         expected_output:
           - CLoopModeGame_OnLoopActivate.{platform}.yaml
@@ -1577,6 +1581,13 @@ modules:
         expected_input:
           - CLoopModeGame_OnPostDataUpdate.{platform}.yaml
           - IGameSystem_vtable.{platform}.yaml
+
+      - name: find-CEntityInstance_PreDataUpdate
+        expected_output:
+          - CEntityInstance_PreDataUpdate.{platform}.yaml
+        expected_input:
+          - CLoopModeGame_OnPreDataUpdate.{platform}.yaml
+          - CEntityInstance_vtable.{platform}.yaml
 
       - name: find-IGameSystem_OnGameFrameBoundary
         expected_output:
@@ -6035,6 +6046,11 @@ modules:
         category: vfunc
         alias:
           - CEntityInstance::PostDataUpdateDelta
+
+      - name: CEntityInstance_PreDataUpdate
+        category: vfunc
+        alias:
+          - CEntityInstance::PreDataUpdate
 
       - name: CEntityInstance_PostDataUpdate
         category: vfunc
