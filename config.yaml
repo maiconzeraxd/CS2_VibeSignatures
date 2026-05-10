@@ -3857,6 +3857,12 @@ modules:
         expected_input:
           - CEntityInstance_vtable.{platform}.yaml
 
+      - name: find-CEntityInstance_OnSetDormant
+        expected_output:
+          - CEntityInstance_OnSetDormant.{platform}.yaml
+        expected_input:
+          - CCSPlayerPawnBase_OnSetDormant.{platform}.yaml
+
       - name: find-CScriptedSequence_SynchronizeSequence
         expected_output:
           - CScriptedSequence_SynchronizeSequence.{platform}.yaml
@@ -6033,6 +6039,11 @@ modules:
         category: vfunc
         alias:
           - CEntityInstance::AddedToEntityDatabase
+
+      - name: CEntityInstance_OnSetDormant
+        category: vfunc
+        alias:
+          - CEntityInstance::OnSetDormant
 
       - name: CEntitySystem_OnRemoveEntity
         category: vfunc
