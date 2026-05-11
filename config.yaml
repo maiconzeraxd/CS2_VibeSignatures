@@ -634,6 +634,12 @@ modules:
           - CNetworkGameServerBase_ServerSimulateInternal.{platform}.yaml
           - CNetworkGameServerBase_vtable.{platform}.yaml
 
+      - name: find-INetworkClientService_IsActive
+        expected_output:
+          - INetworkClientService_IsActive.{platform}.yaml
+        expected_input:
+          - CNetworkGameServerBase_ServerSimulate.{platform}.yaml
+
       - name: find-CNetworkGameServer_GetFreeClient
         expected_output:
           - CNetworkGameServer_GetFreeClient.{platform}.yaml
@@ -1157,6 +1163,12 @@ modules:
         category: vfunc
         alias:
           - INetworkMessages::FindNetworkGroup
+        shared: true
+
+      - name: INetworkClientService_IsActive
+        category: vfunc
+        alias:
+          - INetworkClientService::IsActive
         shared: true
 
       - name: CNetworkClientService_vtable
