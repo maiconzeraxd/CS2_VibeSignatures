@@ -1,37 +1,31 @@
 #!/usr/bin/env python3
-"""Preprocess script for find-CEntityInstance_Restore skill."""
+"""Preprocess script for find-CEntitySystem_SetInPVS skill."""
 
 from ida_analyze_util import preprocess_common_skill
 
 TARGET_FUNCTION_NAMES = [
-    "CEntityInstance_Restore",
+    "CEntitySystem_SetInPVS",
 ]
 
 LLM_DECOMPILE = [
     # (symbol_name, path_to_prompt, path_to_reference)
     (
-        "CEntityInstance_Restore",
+        "CEntitySystem_SetInPVS",
         "prompt/call_llm_decompile.md",
-        "references/server/CEntitySaveRestoreBlockHandler_DoRestoreEntity.{platform}.yaml",
+        "references/server/CEntitySaveRestoreBlockHandler_RestoreEntity.{platform}.yaml",
     ),
-]
-
-FUNC_VTABLE_RELATIONS = [
-    # (func_name, vtable_class)
-    ("CEntityInstance_Restore", "CEntityInstance"),
 ]
 
 GENERATE_YAML_DESIRED_FIELDS = [
     # (symbol_name, generate_yaml_fields)
-    # slot-only: CEntityInstance_Restore is an abstract/interface vfunc -- no func_sig needed
     (
-        "CEntityInstance_Restore",
+        "CEntitySystem_SetInPVS",
         [
             "func_name",
-            "vfunc_sig",
-            "vfunc_offset",
-            "vfunc_index",
-            "vtable_name",
+            "func_sig",
+            "func_va",
+            "func_rva",
+            "func_size",
         ],
     ),
 ]
@@ -49,7 +43,6 @@ async def preprocess_skill(
         platform=platform,
         image_base=image_base,
         func_names=TARGET_FUNCTION_NAMES,
-        func_vtable_relations=FUNC_VTABLE_RELATIONS,
         llm_decompile_specs=LLM_DECOMPILE,
         llm_config=llm_config,
         generate_yaml_desired_fields=GENERATE_YAML_DESIRED_FIELDS,

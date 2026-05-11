@@ -1,33 +1,35 @@
 #!/usr/bin/env python3
-"""Preprocess script for find-CEntityInstance_Restore skill."""
+"""Preprocess script for find-CEntitySystem_OnSetDormant skill."""
 
 from ida_analyze_util import preprocess_common_skill
 
 TARGET_FUNCTION_NAMES = [
-    "CEntityInstance_Restore",
+    "CEntitySystem_OnSetDormant",
 ]
 
 LLM_DECOMPILE = [
     # (symbol_name, path_to_prompt, path_to_reference)
     (
-        "CEntityInstance_Restore",
+        "CEntitySystem_OnSetDormant",
         "prompt/call_llm_decompile.md",
-        "references/server/CEntitySaveRestoreBlockHandler_DoRestoreEntity.{platform}.yaml",
+        "references/server/CEntitySystem_SetInPVS.{platform}.yaml",
     ),
 ]
 
 FUNC_VTABLE_RELATIONS = [
     # (func_name, vtable_class)
-    ("CEntityInstance_Restore", "CEntityInstance"),
+    ("CEntitySystem_OnSetDormant", "CEntitySystem"),
 ]
 
 GENERATE_YAML_DESIRED_FIELDS = [
     # (symbol_name, generate_yaml_fields)
-    # slot-only: CEntityInstance_Restore is an abstract/interface vfunc -- no func_sig needed
     (
-        "CEntityInstance_Restore",
+        "CEntitySystem_OnSetDormant",
         [
             "func_name",
+            "func_va",
+            "func_rva",
+            "func_size",
             "vfunc_sig",
             "vfunc_offset",
             "vfunc_index",

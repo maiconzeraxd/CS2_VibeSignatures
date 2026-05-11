@@ -1393,6 +1393,10 @@ modules:
         expected_output:
           - CLoopModeGame_vtable.{platform}.yaml
 
+      - name: find-CEntityInstance_vtable
+        expected_output:
+          - CEntityInstance_vtable.{platform}.yaml
+
       - name: find-CLoopModeGame_OnLoopActivate
         expected_output:
           - CLoopModeGame_OnLoopActivate.{platform}.yaml
@@ -1577,6 +1581,13 @@ modules:
         expected_input:
           - CLoopModeGame_OnPostDataUpdate.{platform}.yaml
           - IGameSystem_vtable.{platform}.yaml
+
+      - name: find-CEntityInstance_PreDataUpdate
+        expected_output:
+          - CEntityInstance_PreDataUpdate.{platform}.yaml
+        expected_input:
+          - CLoopModeGame_OnPreDataUpdate.{platform}.yaml
+          - CEntityInstance_vtable.{platform}.yaml
 
       - name: find-IGameSystem_OnGameFrameBoundary
         expected_output:
@@ -2325,6 +2336,22 @@ modules:
           - CBaseEntity_SetGravityScale.{platform}.yaml
         expected_input:
           - CFlashbangProjectile_Spawn.{platform}.yaml
+
+      - name: find-CBaseModelEntity_SetRenderAttribute
+        expected_output:
+          - CBaseModelEntity_SetRenderAttribute.{platform}.yaml
+
+      - name: find-CEntityInstance_NetworkUpdateState_thunk
+        expected_output:
+          - CEntityInstance_NetworkUpdateState_thunk.{platform}.yaml
+        expected_input:
+          - CBaseModelEntity_SetRenderAttribute.{platform}.yaml
+
+      - name: find-CEntityInstance_NetworkUpdateState
+        expected_output:
+          - CEntityInstance_NetworkUpdateState.{platform}.yaml
+        expected_input:
+          - CEntityInstance_NetworkUpdateState_thunk.{platform}.yaml
 
       - name: find-CTriggerGravity_GetTouchFunction
         expected_output:
@@ -3497,12 +3524,13 @@ modules:
         expected_input:
           - CBaseEntity_vtable.{platform}.yaml
 
-      - name: find-CBaseEntity_PostDataUpdate
+      - name: find-CEntityInstance_PostDataUpdatePreserve-AND-CEntityInstance_PostDataUpdateDelta
         expected_output:
-          - CBaseEntity_PostDataUpdate.{platform}.yaml
+          - CEntityInstance_PostDataUpdatePreserve.{platform}.yaml
+          - CEntityInstance_PostDataUpdateDelta.{platform}.yaml
         expected_input:
           - CEntitySystem_PostDataUpdate.{platform}.yaml
-          - CBaseEntity_vtable.{platform}.yaml
+          - CEntityInstance_vtable.{platform}.yaml
 
       - name: find-CBaseEntity_Spawn
         expected_output:
@@ -3820,11 +3848,28 @@ modules:
         expected_input:
           - CBaseEntity_DrawDebugTextOverlays.{platform}.yaml
 
+      - name: find-CRagdollProp_vtable
+        expected_output:
+          - CRagdollProp_vtable.{platform}.yaml
+
+      - name: find-CRagdollProp_DrawEntityDebugOverlays
+        expected_output:
+          - CRagdollProp_DrawEntityDebugOverlays.{platform}.yaml
+        expected_input:
+          - CRagdollProp_vtable.{platform}.yaml
+
+      - name: find-CEntityInstance_DrawEntityDebugOverlays
+        expected_output:
+          - CEntityInstance_DrawEntityDebugOverlays.{platform}.yaml
+        expected_input:
+          - CRagdollProp_DrawEntityDebugOverlays.{platform}.yaml
+
       - name: find-CEntityInstance_PostDataUpdate
         expected_output:
           - CEntityInstance_PostDataUpdate.{platform}.yaml
         expected_input:
-          - CBaseEntity_PostDataUpdate.{platform}.yaml
+          - CEntityInstance_PostDataUpdateDelta.{platform}.yaml
+          - CEntityInstance_vtable.{platform}.yaml
 
       - name: find-CEntityInstance_Connect
         expected_output:
@@ -3838,6 +3883,12 @@ modules:
           - CEntityInstance_UpdateOnRemove.{platform}.yaml
         expected_input:
           - CEntityInstance_vtable.{platform}.yaml
+
+      - name: find-CEntityInstance_OnSetDormant
+        expected_output:
+          - CEntityInstance_OnSetDormant.{platform}.yaml
+        expected_input:
+          - CCSPlayerPawnBase_OnSetDormant.{platform}.yaml
 
       - name: find-CScriptedSequence_SynchronizeSequence
         expected_output:
@@ -4115,11 +4166,43 @@ modules:
         expected_output:
           - CEntitySaveRestoreBlockHandler_DoRestoreEntity.{platform}.yaml
 
+      - name: find-CEntitySaveRestoreBlockHandler_RestoreEntity
+        expected_output:
+          - CEntitySaveRestoreBlockHandler_RestoreEntity.{platform}.yaml
+        expected_input:
+          - CEntitySaveRestoreBlockHandler_DoRestoreEntity.{platform}.yaml
+
+      - name: find-CEntitySystem_SetInPVS
+        expected_output:
+          - CEntitySystem_SetInPVS.{platform}.yaml
+        expected_input:
+          - CEntitySaveRestoreBlockHandler_RestoreEntity.{platform}.yaml
+
+      - name: find-CEntitySystem_OnSetDormant
+        expected_output:
+          - CEntitySystem_OnSetDormant.{platform}.yaml
+        expected_input:
+          - CEntitySystem_SetInPVS.{platform}.yaml
+          - CEntitySystem_vtable.{platform}.yaml
+
       - name: find-CEntityInstance_Restore
         expected_output:
           - CEntityInstance_Restore.{platform}.yaml
         expected_input:
           - CEntitySaveRestoreBlockHandler_DoRestoreEntity.{platform}.yaml
+          - CEntityInstance_vtable.{platform}.yaml
+
+      - name: find-CEntitySaveRestoreBlockHandler_SaveInitEntities
+        expected_output:
+          - CEntitySaveRestoreBlockHandler_SaveInitEntities.{platform}.yaml
+        expected_input:
+          - CEntitySaveRestoreBlockHandler_PreSave.{platform}.yaml
+
+      - name: find-CEntityInstance_RequiredEdictIndex
+        expected_output:
+          - CEntityInstance_RequiredEdictIndex.{platform}.yaml
+        expected_input:
+          - CEntitySaveRestoreBlockHandler_SaveInitEntities.{platform}.yaml
           - CEntityInstance_vtable.{platform}.yaml
 
       - name: find-CEntityInstance_ObjectCaps-AND-CEntityInstance_Save
@@ -4322,6 +4405,21 @@ modules:
         alias:
           - CEntitySaveRestoreBlockHandler::DoRestoreEntity
 
+      - name: CEntitySaveRestoreBlockHandler_RestoreEntity
+        category: func
+        alias:
+          - CEntitySaveRestoreBlockHandler::RestoreEntity
+
+      - name: CEntitySystem_SetInPVS
+        category: func
+        alias:
+          - CEntitySystem::SetInPVS
+
+      - name: CEntitySystem_OnSetDormant
+        category: vfunc
+        alias:
+          - CEntitySystem::OnSetDormant
+
       - name: CEntityInstance_ObjectCaps
         category: vfunc
         alias:
@@ -4336,6 +4434,16 @@ modules:
         category: vfunc
         alias:
           - CEntityInstance::Restore
+
+      - name: CEntitySaveRestoreBlockHandler_SaveInitEntities
+        category: func
+        alias:
+          - CEntitySaveRestoreBlockHandler::SaveInitEntities
+
+      - name: CEntityInstance_RequiredEdictIndex
+        category: vfunc
+        alias:
+          - CEntityInstance::RequiredEdictIndex
 
       - name: CGameSceneNode_vtable
         category: vtable
@@ -4455,6 +4563,16 @@ modules:
         category: func
         alias:
           - CBaseModelEntity::SetModel
+
+      - name: CBaseModelEntity_SetRenderAttribute
+        category: func
+        alias:
+          - CBaseModelEntity::SetRenderAttribute
+
+      - name: CEntityInstance_NetworkUpdateState_thunk
+        category: func
+        alias:
+          - CEntityInstance::NetworkUpdateState_thunk
 
       - name: CBaseEntity_SetGravityScale
         category: func
@@ -5589,15 +5707,15 @@ modules:
         alias:
           - CBaseEntity::DrawDebugTextOverlays
 
+      - name: CRagdollProp_DrawEntityDebugOverlays
+        category: vfunc
+        alias:
+          - CRagdollProp::DrawEntityDebugOverlays
+
       - name: CBaseEntity_ReloadPrivateScripts
         category: vfunc
         alias:
           - CBaseEntity::ReloadPrivateScripts
-
-      - name: CBaseEntity_PostDataUpdate
-        category: vfunc
-        alias:
-          - CBaseEntity::PostDataUpdate
 
       - name: CCheckTransmitInfo
         category: struct
@@ -5904,6 +6022,11 @@ modules:
         alias:
           - CEntityInstance::NetworkStateChanged
 
+      - name: CEntityInstance_NetworkUpdateState
+        category: vfunc
+        alias:
+          - CEntityInstance::NetworkUpdateState
+
       - name: CEntityInstance_NetworkStateChangedLog
         category: vfunc
         alias:
@@ -5914,10 +6037,30 @@ modules:
         alias:
           - CEntityInstance::DrawDebugTextOverlays
 
+      - name: CEntityInstance_DrawEntityDebugOverlays
+        category: vfunc
+        alias:
+          - CEntityInstance::DrawEntityDebugOverlays
+
+      - name: CEntityInstance_PostDataUpdateDelta
+        category: vfunc
+        alias:
+          - CEntityInstance::PostDataUpdateDelta
+
+      - name: CEntityInstance_PreDataUpdate
+        category: vfunc
+        alias:
+          - CEntityInstance::PreDataUpdate
+
       - name: CEntityInstance_PostDataUpdate
         category: vfunc
         alias:
           - CEntityInstance::PostDataUpdate
+
+      - name: CEntityInstance_PostDataUpdatePreserve
+        category: vfunc
+        alias:
+          - CEntityInstance::PostDataUpdatePreserve
 
       - name: CEntityInstance_Connect
         category: vfunc
@@ -5938,6 +6081,11 @@ modules:
         category: vfunc
         alias:
           - CEntityInstance::AddedToEntityDatabase
+
+      - name: CEntityInstance_OnSetDormant
+        category: vfunc
+        alias:
+          - CEntityInstance::OnSetDormant
 
       - name: CEntitySystem_OnRemoveEntity
         category: vfunc
@@ -5969,6 +6117,9 @@ modules:
         alias:
           - INetworkMessages::GetLoggingChannel
         shared: true
+
+      - name: CRagdollProp_vtable
+        category: vtable
 
       - name: CPhysicsEntitySolver_vtable
         category: vtable
@@ -6223,6 +6374,33 @@ modules:
         shared: true
 
 cpp_tests:
+  - name: CEntityInstance_MSVC
+    symbol: CEntityInstance
+    cpp: cpp_tests/centityinstance.cpp
+    headers:
+    - hl2sdk_cs2/public/entity2/entityinstance.h # This is for LLM agent
+    claude_permission_mode: acceptEdits
+    claude_allowed_tools: Read,Edit,MultiEdit,Write
+    target: x86_64-pc-windows-msvc
+    include_directories:
+      - cpp_tests/stubs
+      - hl2sdk_cs2/game/shared
+      - hl2sdk_cs2/public
+      - hl2sdk_cs2/public/mathlib
+      - hl2sdk_cs2/public/tier0
+      - hl2sdk_cs2/public/tier1
+    defines:
+      - COMPILER_MSVC=1
+      - COMPILER_MSVC64=1
+      - _MSVC_STL_USE_ABORT_AS_DOOM_FUNCTION
+    additional_compiler_options:
+      - fms-extensions
+      - fms-compatibility
+      - Xclang
+      - fdump-vtable-layouts
+    reference_modules:
+      - server # bin/{gamever}/server/CEntityInstance_*.{platform}.yaml
+
   - name: IGameSystem_MSVC
     symbol: IGameSystem
     cpp: cpp_tests/igamesystem.cpp

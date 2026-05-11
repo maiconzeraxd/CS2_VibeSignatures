@@ -1,31 +1,31 @@
 #!/usr/bin/env python3
-"""Preprocess script for find-CEntityInstance_Restore skill."""
+"""Preprocess script for find-CEntityInstance_RequiredEdictIndex skill."""
 
 from ida_analyze_util import preprocess_common_skill
 
 TARGET_FUNCTION_NAMES = [
-    "CEntityInstance_Restore",
+    "CEntityInstance_RequiredEdictIndex",
 ]
 
 LLM_DECOMPILE = [
     # (symbol_name, path_to_prompt, path_to_reference)
     (
-        "CEntityInstance_Restore",
+        "CEntityInstance_RequiredEdictIndex",
         "prompt/call_llm_decompile.md",
-        "references/server/CEntitySaveRestoreBlockHandler_DoRestoreEntity.{platform}.yaml",
+        "references/server/CEntitySaveRestoreBlockHandler_SaveInitEntities.{platform}.yaml",
     ),
 ]
 
 FUNC_VTABLE_RELATIONS = [
     # (func_name, vtable_class)
-    ("CEntityInstance_Restore", "CEntityInstance"),
+    ("CEntityInstance_RequiredEdictIndex", "CEntityInstance"),
 ]
 
 GENERATE_YAML_DESIRED_FIELDS = [
     # (symbol_name, generate_yaml_fields)
-    # slot-only: CEntityInstance_Restore is an abstract/interface vfunc -- no func_sig needed
+    # slot-only: CEntityInstance_RequiredEdictIndex is an abstract/interface vfunc -- no func_sig needed
     (
-        "CEntityInstance_Restore",
+        "CEntityInstance_RequiredEdictIndex",
         [
             "func_name",
             "vfunc_sig",
