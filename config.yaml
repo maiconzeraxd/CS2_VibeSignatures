@@ -551,6 +551,8 @@ modules:
     vcall_finder:
       - g_pNetworkMessages
       - g_pFlattenedSerializers
+      - g_NetworkClientService
+      - g_pNetworkClientService
 
     skills:
       - name: find-CNetworkGameServer_vtable
@@ -1390,6 +1392,7 @@ modules:
     vcall_finder:
       - g_pNetworkMessages
       - g_pFlattenedSerializers
+      - g_pNetworkClientService
 
     skills:
       - name: find-IGameSystem_vtable
