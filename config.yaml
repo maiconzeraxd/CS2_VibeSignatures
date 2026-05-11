@@ -678,6 +678,10 @@ modules:
         expected_output:
           - CNetworkGameClient_ProcessPacketEntities.{platform}.yaml
 
+      - name: find-CNetworkClientService_vtable
+        expected_output:
+          - CNetworkClientService_vtable.{platform}.yaml
+
       - name: find-CNetworkServerService_vtable
         expected_output:
           - CNetworkServerService_vtable.{platform}.yaml
@@ -1115,6 +1119,9 @@ modules:
         alias:
           - INetworkMessages::FindNetworkGroup
         shared: true
+
+      - name: CNetworkClientService_vtable
+        category: vtable
 
       - name: CNetworkServerService_vtable
         category: vtable
