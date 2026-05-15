@@ -1,0 +1,90 @@
+func_name: CEntityIdentity_AcceptInput
+func_va: '0x1e45640'
+disasm_code: |-
+  .text:0000000001E45640                 push    rbp
+  .text:0000000001E45641                 mov     r11, rdx
+  .text:0000000001E45644                 mov     rbp, rsp
+  .text:0000000001E45647                 push    r15
+  .text:0000000001E45649                 mov     r15d, r9d
+  .text:0000000001E4564C                 push    r14
+  .text:0000000001E4564E                 push    r13
+  .text:0000000001E45650                 push    r12
+  .text:0000000001E45652                 mov     r12, rsi
+  .text:0000000001E45655                 push    rbx
+  .text:0000000001E45656                 mov     rbx, rdi
+  .text:0000000001E45659                 sub     rsp, 40h
+  .text:0000000001E4565D                 mov     rax, [rsi]
+  .text:0000000001E45660                 mov     [rbp+var_48], rdx
+  .text:0000000001E45664                 mov     r13, [rbp+arg_0]
+  .text:0000000001E45668                 mov     [rbp+var_50], rcx
+  .text:0000000001E4566C                 lea     rdx, [rbp+var_38]
+  .text:0000000001E45670                 mov     r14, [rbp+arg_8]
+  .text:0000000001E45674                 mov     [rbp+var_58], r8
+  .text:0000000001E45678                 mov     rdi, [rdi+8]
+  .text:0000000001E4567C                 mov     rsi, [rbx]
+  .text:0000000001E4567F                 mov     [rbp+var_38], rax
+  .text:0000000001E45683                 push    r14
+  .text:0000000001E45685                 push    r13
+  .text:0000000001E45687                 push    r9
+  .text:0000000001E45689                 mov     r9, r8
+  .text:0000000001E4568C                 mov     r8, rcx
+  .text:0000000001E4568F                 mov     rcx, r11
+  .text:0000000001E45692                 call    sub_1E3DAA0
+  .text:0000000001E45697                 add     rsp, 20h
+  .text:0000000001E4569B                 test    eax, eax
+  .text:0000000001E4569D                 jnz     short loc_1E456D0
+  .text:0000000001E4569F                 mov     [rbp+arg_8], r14
+  .text:0000000001E456A3                 mov     r8, [rbp+var_58]
+  .text:0000000001E456A7                 mov     r9d, r15d
+  .text:0000000001E456AA                 mov     rsi, r12
+  .text:0000000001E456AD                 mov     [rbp+arg_0], r13
+  .text:0000000001E456B1                 mov     rcx, [rbp+var_50]
+  .text:0000000001E456B5                 mov     rdi, rbx
+  .text:0000000001E456B8                 mov     rdx, [rbp+var_48]
+  .text:0000000001E456BC                 lea     rsp, [rbp-28h]
+  .text:0000000001E456C0                 pop     rbx
+  .text:0000000001E456C1                 pop     r12
+  .text:0000000001E456C3                 pop     r13
+  .text:0000000001E456C5                 pop     r14
+  .text:0000000001E456C7                 pop     r15
+  .text:0000000001E456C9                 pop     rbp
+  .text:0000000001E456CA                 jmp     CEntityIdentity_AcceptInputInternal
+  .text:0000000001E456D0                 cmp     eax, 2
+  .text:0000000001E456D3                 setz    al
+  .text:0000000001E456D6                 lea     rsp, [rbp-28h]
+  .text:0000000001E456DA                 pop     rbx
+  .text:0000000001E456DB                 pop     r12
+  .text:0000000001E456DD                 pop     r13
+  .text:0000000001E456DF                 pop     r14
+  .text:0000000001E456E1                 pop     r15
+  .text:0000000001E456E3                 pop     rbp
+  .text:0000000001E456E4                 retn
+procedure: |-
+  char __fastcall CEntityIdentity_AcceptInput(
+          __int64 *a1,
+          __int64 *a2,
+          int a3,
+          int a4,
+          int a5,
+          int a6,
+          __int64 a7,
+          __int64 a8)
+  {
+    int v9; // r12d
+    __int64 v11; // rax
+    __int64 v12; // rdi
+    __int64 v13; // rsi
+    int v14; // eax
+    __int64 v19; // [rsp+30h] [rbp-38h] BYREF
+
+    v9 = (int)a2;
+    v11 = *a2;
+    v12 = a1[1];
+    v13 = *a1;
+    v19 = v11;
+    v14 = sub_1E3DAA0(v12, v13, (unsigned int)&v19, a3, a4, a5, a6, a7, a8);
+    if ( v14 )
+      return v14 == 2;
+    else
+      return CEntityIdentity_AcceptInputInternal((_DWORD)a1, v9, a3, a4, a5, a6, a7, a8);
+  }
