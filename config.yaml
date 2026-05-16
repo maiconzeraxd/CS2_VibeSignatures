@@ -1095,6 +1095,16 @@ modules:
           - CServerSideClientBase_ProcessSplitPlayerConnectInternal.{platform}.yaml
           - CServerSideClientBase_vtable.{platform}.yaml
 
+      - name: find-CNetworkGameClientBase_vtable
+        expected_output:
+          - CNetworkGameClientBase_vtable.{platform}.yaml
+
+      - name: find-CNetworkGameClientBase_ProcessSetConVar
+        expected_output:
+          - CNetworkGameClientBase_ProcessSetConVar.{platform}.yaml
+        expected_input:
+          - CNetworkGameClientBase_vtable.{platform}.yaml
+
     symbols:
       - name: CNetworkGameServer_vtable
         category: vtable
@@ -1623,6 +1633,14 @@ modules:
         category: vfunc
         alias:
           - CServerSideClientBase::ProcessSplitPlayerConnect
+
+      - name: CNetworkGameClientBase_vtable
+        category: vtable
+
+      - name: CNetworkGameClientBase_ProcessSetConVar
+        category: vfunc
+        alias:
+          - CNetworkGameClientBase::ProcessSetConVar
 
   - name: client
     path_windows: game/csgo/bin/win64/client.dll
