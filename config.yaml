@@ -997,6 +997,114 @@ modules:
         expected_input:
           - SetInfo_CommandHandler.{platform}.yaml
 
+      - name: find-CSplitScreenService_vtable
+        expected_output:
+          - CSplitScreenService_vtable.{platform}.yaml
+
+      - name: find-CSplitScreenService_AddSplitScreenUser
+        expected_output:
+          - CSplitScreenService_AddSplitScreenUser.{platform}.yaml
+        expected_input:
+          - CSplitScreenService_vtable.{platform}.yaml
+
+      - name: find-CSplitScreenService_LoadUserConfiguration
+        expected_output:
+          - CSplitScreenService_LoadUserConfiguration.{platform}.yaml
+
+      - name: find-CHLTVClient_vtable
+        expected_output:
+          - CHLTVClient_vtable.{platform}.yaml
+
+      - name: find-CHLTVClient_ProcessSetConVar
+        expected_output:
+          - CHLTVClient_ProcessSetConVar.{platform}.yaml
+        expected_input:
+          - CHLTVClient_vtable.{platform}.yaml
+
+      - name: find-CServerSideClientBase_vtable
+        expected_output:
+          - CServerSideClientBase_vtable.{platform}.yaml
+
+      - name: find-CDelayedCall2_CServerSideClientBase_UpdateAcknowledgedFramecountCall_vtable
+        expected_output:
+          - CDelayedCall2_CServerSideClientBase_UpdateAcknowledgedFramecountCall_vtable.{platform}.yaml
+
+      - name: find-CServerSideClientBase_ProcessTick
+        expected_output:
+          - CServerSideClientBase_ProcessTick.{platform}.yaml
+        expected_input:
+          - CServerSideClientBase_vtable.{platform}.yaml
+          - CDelayedCall2_CServerSideClientBase_UpdateAcknowledgedFramecountCall_vtable.{platform}.yaml
+
+      - name: find-CServerSideClientBase_ProcessStringCmd
+        expected_output:
+          - CServerSideClientBase_ProcessStringCmd.{platform}.yaml
+        expected_input:
+          - CServerSideClientBase_vtable.{platform}.yaml
+
+      - name: find-CNETMsg_SpawnGroup_LoadCompleted_t_vtable
+        expected_output:
+          - CNETMsg_SpawnGroup_LoadCompleted_t_vtable.{platform}.yaml
+
+      - name: find-CServerSideClientBase_MarkSpawnGroupLoadCompleted-windows
+        platform: windows
+        expected_output:
+          - CServerSideClientBase_MarkSpawnGroupLoadCompleted.{platform}.yaml
+
+      - name: find-CServerSideClientBase_ProcessSpawnGroup_LoadCompleted-windows
+        platform: windows
+        expected_output:
+          - CServerSideClientBase_ProcessSpawnGroup_LoadCompleted.{platform}.yaml
+        expected_input:
+          - CServerSideClientBase_MarkSpawnGroupLoadCompleted.{platform}.yaml
+          - CServerSideClientBase_vtable.{platform}.yaml
+
+      - name: find-CServerSideClientBase_ProcessSpawnGroup_LoadCompleted-linux
+        platform: linux
+        expected_output:
+          - CServerSideClientBase_ProcessSpawnGroup_LoadCompleted.{platform}.yaml
+        expected_input:
+          - CNETMsg_SpawnGroup_LoadCompleted_t_vtable.{platform}.yaml
+          - CServerSideClientBase_vtable.{platform}.yaml
+
+      - name: find-CServerSideClientBase_ProcessClientInfo
+        expected_output:
+          - CServerSideClientBase_ProcessClientInfo.{platform}.yaml
+        expected_input:
+          - CServerSideClientBase_vtable.{platform}.yaml
+
+      - name: find-CDelayedCall2_CServerSideClientBase_ProcessBaselineAckCall_vtable
+        expected_output:
+          - CDelayedCall2_CServerSideClientBase_ProcessBaselineAckCall_vtable.{platform}.yaml
+
+      - name: find-CServerSideClientBase_ProcessBaselineAck
+        expected_output:
+          - CServerSideClientBase_ProcessBaselineAck.{platform}.yaml
+        expected_input:
+          - CServerSideClientBase_vtable.{platform}.yaml
+          - CDelayedCall2_CServerSideClientBase_ProcessBaselineAckCall_vtable.{platform}.yaml
+
+      - name: find-CServerSideClientBase_ProcessSplitPlayerConnectInternal
+        expected_output:
+          - CServerSideClientBase_ProcessSplitPlayerConnectInternal.{platform}.yaml
+
+      - name: find-CServerSideClientBase_ProcessSplitPlayerConnect
+        expected_output:
+          - CServerSideClientBase_ProcessSplitPlayerConnect.{platform}.yaml
+        expected_input:
+          - CServerSideClientBase_ProcessSplitPlayerConnectInternal.{platform}.yaml
+          - CServerSideClientBase_vtable.{platform}.yaml
+
+      - name: find-CNetworkGameClientBase_vtable
+        expected_output:
+          - CNetworkGameClientBase_vtable.{platform}.yaml
+
+      - name: find-CNetworkGameClientBase_ProcessSetConVar
+        expected_output:
+          - CNetworkGameClientBase_ProcessSetConVar.{platform}.yaml
+        expected_input:
+          - CNetworkGameClientBase_vtable.{platform}.yaml
+
     symbols:
       - name: CNetworkGameServer_vtable
         category: vtable
@@ -1452,6 +1560,87 @@ modules:
         category: vfunc
         alias:
           - IAppSystem::Shutdown
+
+      - name: CSplitScreenService_vtable
+        category: vtable
+
+      - name: CSplitScreenService_AddSplitScreenUser
+        category: vfunc
+        alias:
+          - CSplitScreenService::AddSplitScreenUser
+
+      - name: CSplitScreenService_LoadUserConfiguration
+        category: func
+        alias:
+          - CSplitScreenService::LoadUserConfiguration
+
+      - name: CHLTVClient_vtable
+        category: vtable
+
+      - name: CHLTVClient_ProcessSetConVar
+        category: vfunc
+        alias:
+          - CHLTVClient::ProcessSetConVar
+
+      - name: CServerSideClientBase_vtable
+        category: vtable
+
+      - name: CDelayedCall2_CServerSideClientBase_UpdateAcknowledgedFramecountCall_vtable
+        category: vtable
+
+      - name: CServerSideClientBase_ProcessTick
+        category: vfunc
+        alias:
+          - CServerSideClientBase::ProcessTick
+
+      - name: CServerSideClientBase_ProcessStringCmd
+        category: vfunc
+        alias:
+          - CServerSideClientBase::ProcessStringCmd
+
+      - name: CNETMsg_SpawnGroup_LoadCompleted_t_vtable
+        category: vtable
+
+      - name: CServerSideClientBase_MarkSpawnGroupLoadCompleted
+        category: func
+        alias:
+          - CServerSideClientBase::MarkSpawnGroupLoadCompleted
+
+      - name: CServerSideClientBase_ProcessSpawnGroup_LoadCompleted
+        category: vfunc
+        alias:
+          - CServerSideClientBase::ProcessSpawnGroup_LoadCompleted
+
+      - name: CServerSideClientBase_ProcessClientInfo
+        category: vfunc
+        alias:
+          - CServerSideClientBase::ProcessClientInfo
+
+      - name: CDelayedCall2_CServerSideClientBase_ProcessBaselineAckCall_vtable
+        category: vtable
+
+      - name: CServerSideClientBase_ProcessBaselineAck
+        category: vfunc
+        alias:
+          - CServerSideClientBase::ProcessBaselineAck
+
+      - name: CServerSideClientBase_ProcessSplitPlayerConnectInternal
+        category: func
+        alias:
+          - CServerSideClientBase::ProcessSplitPlayerConnectInternal
+
+      - name: CServerSideClientBase_ProcessSplitPlayerConnect
+        category: vfunc
+        alias:
+          - CServerSideClientBase::ProcessSplitPlayerConnect
+
+      - name: CNetworkGameClientBase_vtable
+        category: vtable
+
+      - name: CNetworkGameClientBase_ProcessSetConVar
+        category: vfunc
+        alias:
+          - CNetworkGameClientBase::ProcessSetConVar
 
   - name: client
     path_windows: game/csgo/bin/win64/client.dll
@@ -3270,6 +3459,39 @@ modules:
         expected_output:
           - CCSBot_Upkeep.{platform}.yaml
 
+      - name: find-CCSBot_SetState
+        expected_output:
+          - CCSBot_SetState.{platform}.yaml
+
+      - name: find-CCSBot_UpdatePathMovement
+        expected_output:
+          - CCSBot_UpdatePathMovement.{platform}.yaml
+
+      - name: find-CCSBot_PrintIfWatched
+        expected_output:
+          - CCSBot_PrintIfWatched.{platform}.yaml
+
+      - name: find-HideState_vtable
+        expected_output:
+          - HideState_vtable.{platform}.yaml
+
+      - name: find-HideState_OnUpdate
+        expected_output:
+          - HideState_OnUpdate.{platform}.yaml
+        expected_input:
+          - HideState_vtable.{platform}.yaml
+
+      - name: find-CCSBot_Attack-AND-CCSBot_MoveTo-AND-CCSBot_InhibitLookAround-AND-CCSBot_SetDisposition-AND-CCSBot_Idle-AND-CCSBot_ComputePath
+        expected_output:
+          - CCSBot_Attack.{platform}.yaml
+          - CCSBot_MoveTo.{platform}.yaml
+          - CCSBot_InhibitLookAround.{platform}.yaml
+          - CCSBot_SetDisposition.{platform}.yaml
+          - CCSBot_Idle.{platform}.yaml
+          - CCSBot_ComputePath.{platform}.yaml
+        expected_input:
+          - HideState_OnUpdate.{platform}.yaml
+
       - name: find-CBaseEntity_IsAlive-AND-CBaseEntity_GetEyePosition
         expected_output:
           - CBaseEntity_IsAlive.{platform}.yaml
@@ -4352,6 +4574,10 @@ modules:
         expected_input:
           - CEntitySaveRestoreBlockHandler_SaveInternal.{platform}.yaml
           - CEntityInstance_vtable.{platform}.yaml
+
+      - name: find-CNavPhysicsInterface_vtable
+        expected_output:
+          - CNavPhysicsInterface_vtable.{platform}.yaml
 
     symbols:
       - name: CSource2Server_vtable
@@ -5515,6 +5741,59 @@ modules:
         alias:
           - CCSBot::Upkeep
 
+      - name: CCSBot_SetState
+        category: func
+        alias:
+          - CCSBot::SetState
+
+      - name: CCSBot_UpdatePathMovement
+        category: func
+        alias:
+          - CCSBot::UpdatePathMovement
+
+      - name: CCSBot_PrintIfWatched
+        category: func
+        alias:
+          - CCSBot::PrintIfWatched
+
+      - name: HideState_vtable
+        category: vtable
+
+      - name: HideState_OnUpdate
+        category: vfunc
+        alias:
+          - HideState::OnUpdate
+
+      - name: CCSBot_Attack
+        category: func
+        alias:
+          - CCSBot::Attack
+
+      - name: CCSBot_MoveTo
+        category: func
+        alias:
+          - CCSBot::MoveTo
+
+      - name: CCSBot_InhibitLookAround
+        category: func
+        alias:
+          - CCSBot::InhibitLookAround
+
+      - name: CCSBot_SetDisposition
+        category: func
+        alias:
+          - CCSBot::SetDisposition
+
+      - name: CCSBot_Idle
+        category: func
+        alias:
+          - CCSBot::Idle
+
+      - name: CCSBot_ComputePath
+        category: func
+        alias:
+          - CCSBot::ComputePath
+
       - name: CBaseEntity_IsAlive
         category: vfunc
         alias:
@@ -6486,6 +6765,9 @@ modules:
         category: func
         alias:
           - CPlayerCommandQueue::CPlayerCommandQueue
+
+      - name: CNavPhysicsInterface_vtable
+        category: vtable
 
   - name: engine # Execute skills for engine2.dll again after client.dll
     path_windows: game/bin/win64/engine2.dll
