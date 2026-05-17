@@ -35,6 +35,19 @@ class TestBumpDownload(unittest.TestCase):
 
         self.assertEqual("1.41.6.1", bump_download.parse_patch_version(text))
 
+    def test_parse_patch_version_rejects_malformed_patch_version(self) -> None:
+        text = "\n".join(
+            [
+                "ClientVersion=2000777",
+                "ServerVersion=2000777",
+                "PatchVersion=1.41",
+                "ProductName=cs2",
+            ]
+        )
+
+        with self.assertRaises(bump_download.BumpError):
+            bump_download.parse_patch_version(text)
+
     def test_plan_new_entry_for_new_patch_version(self) -> None:
         downloads = [
             {
