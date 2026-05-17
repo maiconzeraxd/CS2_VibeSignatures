@@ -2011,6 +2011,22 @@ modules:
         expected_input:
           - CAM_Command_CommandHandler.{platform}.yaml
 
+      - name: find-ClientModeCSNormal_vtable
+        expected_output:
+          - ClientModeCSNormal_vtable.{platform}.yaml
+
+      - name: find-ClientModeCSNormal_Update
+        expected_output:
+          - ClientModeCSNormal_Update.{platform}.yaml
+        expected_input:
+          - ClientModeCSNormal_vtable.{platform}.yaml
+
+      - name: find-g_CSGOInput
+        expected_output:
+          - g_CSGOInput.{platform}.yaml
+        expected_input:
+          - ClientModeCSNormal_Update.{platform}.yaml
+
     symbols:
       - name: CLoopModeGame_RegisterEventMapInternal
         category: func
@@ -2336,6 +2352,17 @@ modules:
         category: func
 
       - name: g_pCSGOInput
+        category: gv
+
+      - name: ClientModeCSNormal_vtable
+        category: vtable
+
+      - name: ClientModeCSNormal_Update
+        category: vfunc
+        alias:
+          - ClientModeCSNormal::Update
+
+      - name: g_CSGOInput
         category: gv
 
   - name: server
