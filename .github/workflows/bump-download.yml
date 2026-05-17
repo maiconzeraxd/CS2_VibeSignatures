@@ -20,6 +20,7 @@ jobs:
     env:
       STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
       STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
+      PERSISTED_WORKSPACE: ${{ secrets.PERSISTED_WORKSPACE }}
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
