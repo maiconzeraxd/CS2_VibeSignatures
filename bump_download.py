@@ -303,25 +303,48 @@ def write_github_output(output_path: Path | None, updated: bool, tag: str | None
         handle.write("\n".join(lines) + "\n")
 
 
+def _git_error_message(command: list[str], completed: subprocess.CompletedProcess) -> str:
+    detail = (completed.stderr or completed.stdout or "").strip()
+    if not detail:
+        detail = f"exit code {completed.returncode}"
+    return f"Git command failed ({' '.join(command)}): {detail}"
+
+
 def git_output(command: list[str]) -> str:
     completed = subprocess.run(command, check=False, capture_output=True, text=True)
+    if completed.returncode != 0:
+        raise BumpError(_git_error_message(command, completed))
     return completed.stdout.strip()
 
 
 def local_tag_exists(tag: str) -> bool:
+    command = ["git", "show-ref", "--verify", "--quiet", f"refs/tags/{tag}"]
     completed = subprocess.run(
-        ["git", "rev-parse", "-q", "--verify", f"refs/tags/{tag}"],
+        command,
         check=False,
+        capture_output=True,
+        text=True,
     )
-    return completed.returncode == 0
+    if completed.returncode == 0:
+        return True
+    if completed.returncode == 1 and not completed.stderr.strip():
+        return False
+    raise BumpError(_git_error_message(command, completed))
 
 
 def remote_tag_exists(tag: str) -> bool:
+    command = ["git", "ls-remote", "--exit-code", "--tags", "origin", tag]
     completed = subprocess.run(
-        ["git", "ls-remote", "--exit-code", "--tags", "origin", tag],
+        command,
         check=False,
+        capture_output=True,
+        text=True,
     )
-    return completed.returncode == 0
+    if completed.returncode == 0:
+        return True
+    if completed.returncode == 2:
+        return False
+    raise BumpError(_git_error_message(command, completed))
 
 
 def ensure_clean_worktree() -> None:

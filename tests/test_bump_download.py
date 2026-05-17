@@ -463,6 +463,91 @@ class TestBumpDownload(unittest.TestCase):
             mock_run.call_args_list,
         )
 
+    @patch("bump_download.subprocess.run")
+    def test_git_output_raises_bump_error_on_command_failure(self, mock_run) -> None:
+        mock_run.return_value = bump_download.subprocess.CompletedProcess(
+            ["git", "status"],
+            128,
+            stdout="",
+            stderr="fatal: not a git repository\n",
+        )
+
+        with self.assertRaisesRegex(
+            bump_download.BumpError, "fatal: not a git repository"
+        ):
+            bump_download.git_output(["git", "status"])
+
+        mock_run.assert_called_once_with(
+            ["git", "status"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+
+    @patch("bump_download.subprocess.run")
+    def test_local_tag_exists_returns_false_for_missing_ref(self, mock_run) -> None:
+        mock_run.return_value = bump_download.subprocess.CompletedProcess(
+            ["git", "show-ref"],
+            1,
+            stdout="",
+            stderr="",
+        )
+
+        self.assertFalse(bump_download.local_tag_exists("14161"))
+
+        mock_run.assert_called_once_with(
+            ["git", "show-ref", "--verify", "--quiet", "refs/tags/14161"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+
+    @patch("bump_download.subprocess.run")
+    def test_local_tag_exists_raises_on_git_failure(self, mock_run) -> None:
+        mock_run.return_value = bump_download.subprocess.CompletedProcess(
+            ["git", "show-ref"],
+            128,
+            stdout="",
+            stderr="fatal: not a git repository\n",
+        )
+
+        with self.assertRaisesRegex(
+            bump_download.BumpError, "fatal: not a git repository"
+        ):
+            bump_download.local_tag_exists("14161")
+
+    @patch("bump_download.subprocess.run")
+    def test_remote_tag_exists_returns_false_for_no_matching_ref(self, mock_run) -> None:
+        mock_run.return_value = bump_download.subprocess.CompletedProcess(
+            ["git", "ls-remote"],
+            2,
+            stdout="",
+            stderr="",
+        )
+
+        self.assertFalse(bump_download.remote_tag_exists("14161"))
+
+        mock_run.assert_called_once_with(
+            ["git", "ls-remote", "--exit-code", "--tags", "origin", "14161"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+
+    @patch("bump_download.subprocess.run")
+    def test_remote_tag_exists_raises_on_git_failure(self, mock_run) -> None:
+        mock_run.return_value = bump_download.subprocess.CompletedProcess(
+            ["git", "ls-remote"],
+            128,
+            stdout="",
+            stderr="fatal: unable to access origin\n",
+        )
+
+        with self.assertRaisesRegex(
+            bump_download.BumpError, "fatal: unable to access origin"
+        ):
+            bump_download.remote_tag_exists("14161")
+
     @patch("bump_download.create_commit_and_tag")
     @patch(
         "bump_download.discover_latest",
@@ -540,9 +625,8 @@ class TestBumpDownload(unittest.TestCase):
         remote_tag_exists.assert_not_called()
 
     @patch("bump_download.remote_tag_exists", return_value=False)
-    @patch("bump_download.local_tag_exists", return_value=False)
     def test_tag_repair_when_entry_exists_but_remote_tag_missing(
-        self, _local, _remote
+        self, _remote
     ) -> None:
         downloads = [
             {
@@ -562,6 +646,77 @@ class TestBumpDownload(unittest.TestCase):
         self.assertTrue(plan.updated)
         self.assertTrue(plan.repair_tag)
         self.assertEqual("14161", plan.tag)
+
+    @patch("bump_download.subprocess.run")
+    def test_tag_repair_raises_when_remote_check_fails(self, mock_run) -> None:
+        mock_run.return_value = bump_download.subprocess.CompletedProcess(
+            ["git", "ls-remote"],
+            128,
+            stdout="",
+            stderr="fatal: unable to access origin\n",
+        )
+        downloads = [
+            {
+                "tag": "14161",
+                "name": "1.41.6.1",
+                "manifests": {"2347771": "11", "2347773": "22"},
+            }
+        ]
+
+        with self.assertRaisesRegex(
+            bump_download.BumpError, "fatal: unable to access origin"
+        ):
+            bump_download.plan_tag_repair(
+                downloads,
+                patch_version="1.41.6.1",
+                manifests={"2347771": "11", "2347773": "22"},
+            )
+
+    @patch("bump_download.git_output", side_effect=["tag-sha", "head-sha"])
+    @patch("bump_download.local_tag_exists", return_value=True)
+    def test_ensure_local_tag_matches_head_raises_for_mismatched_tag(
+        self, _local_tag_exists, _git_output
+    ) -> None:
+        with self.assertRaisesRegex(
+            bump_download.BumpError, "Local tag 14161 does not point to HEAD"
+        ):
+            bump_download.ensure_local_tag_matches_head("14161")
+
+    @patch("bump_download.git_output", side_effect=["head-sha", "head-sha"])
+    @patch("bump_download.local_tag_exists", return_value=True)
+    def test_ensure_local_tag_matches_head_allows_matching_tag(
+        self, local_tag_exists, git_output
+    ) -> None:
+        bump_download.ensure_local_tag_matches_head("14161")
+
+        local_tag_exists.assert_called_once_with("14161")
+        self.assertEqual(
+            [
+                call(["git", "rev-list", "-n", "1", "14161"]),
+                call(["git", "rev-parse", "HEAD"]),
+            ],
+            git_output.call_args_list,
+        )
+
+    @patch("bump_download.subprocess.run")
+    @patch("bump_download.local_tag_exists", return_value=True)
+    def test_create_repair_tag_skips_existing_local_tag(
+        self, local_tag_exists, mock_run
+    ) -> None:
+        bump_download.create_repair_tag("14161")
+
+        local_tag_exists.assert_called_once_with("14161")
+        mock_run.assert_not_called()
+
+    @patch("bump_download.subprocess.run")
+    @patch("bump_download.local_tag_exists", return_value=False)
+    def test_create_repair_tag_creates_missing_local_tag(
+        self, local_tag_exists, mock_run
+    ) -> None:
+        bump_download.create_repair_tag("14161")
+
+        local_tag_exists.assert_called_once_with("14161")
+        mock_run.assert_called_once_with(["git", "tag", "14161"], check=True)
 
     @patch("bump_download.create_commit_and_tag")
     @patch("bump_download.remote_tag_exists", return_value=False)
