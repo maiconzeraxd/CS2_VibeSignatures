@@ -35,7 +35,7 @@
 
 1. 调用 `DepotDownloader -app 730 -depot 2347770 -os all-platform -dir <depotdir> -manifest-only` 获取默认公开分支 depot `2347770` 的 manifest 文件。
 2. 从生成的 `manifest_2347770_<manifest_id>.txt` 文件名中解析 `2347770` 的 manifest id。
-3. 使用 DepotDownloader 的 `-filelist` 能力，只下载 `game\csgo\steam.inf`。
+3. 创建临时 filelist 文件，内容只包含 `game\csgo\steam.inf`；随后调用 `DepotDownloader -app 730 -depot 2347770 -os all-platform -dir <depotdir> -manifest <2347770_manifest_id> -filelist <filelist_path>`，只下载 `steam.inf`。
 4. 从 `steam.inf` 读取 `PatchVersion`，例如 `1.41.6.1`。
 5. 分别调用 `DepotDownloader -app 730 -depot 2347771 -os all-platform -dir <depotdir> -manifest-only` 和 `2347773`，解析两个二进制 depot 的 manifest id。
 6. 将 `PatchVersion` 转为基础 tag，例如 `1.41.6.1 -> 14161`。
@@ -131,6 +131,7 @@ git tag 14161
 - 无更新时不要求工作区干净，因为脚本不会写入或提交。
 - 创建 tag 前检查本地 tag 和远端 tag，避免覆盖历史。
 - 如果 commit 或 tag 失败，脚本返回失败。
+- 如果 `download.yaml` 已经存在完全匹配的新版本条目，但对应 tag 在远端缺失，脚本进入 tag 修复模式：不修改 `download.yaml`，只在本地创建或复用同名 tag，并输出需要 push tag。这样可以恢复“main push 成功但 tag push 失败”的中间状态。
 
 ## GitHub Actions 设计
 
@@ -150,7 +151,11 @@ permissions:
 jobs:
   bump:
     if: github.repository == 'HLND2T/CS2_VibeSignatures' || github.repository == 'hzqst/CS2_VibeSignatures'
+    environment: win64
     runs-on: [self-hosted, windows, x64]
+    env:
+      STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
+      STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -179,6 +184,8 @@ jobs:
 
 workflow 使用 `main` 作为固定目标分支。新 tag 推送后，现有 tag-triggered build workflow 会继续处理后续构建和 release。
 
+push 顺序保持为先 `git push origin HEAD:main`，再 `git push origin <tag>`。如果 main push 失败，tag push 不执行；下一次 workflow 仍会基于旧 main 重新尝试。如果 main push 成功但 tag push 失败，下一次 workflow 会通过 tag 修复模式补推缺失 tag。
+
 ## Output 与退出码
 
 退出码：
@@ -201,6 +208,8 @@ updated=true
 tag=14161
 ```
 
+tag 修复模式同样写入 `updated=true` 和 `tag=<missing_tag>`，让 workflow 执行 push step；此时 `git push origin HEAD:main` 应为 no-op，`git push origin <tag>` 会补齐缺失 tag。
+
 ## 错误处理
 
 以下情况应失败退出：
@@ -216,6 +225,7 @@ tag=14161
 - 即将创建的 tag 已存在于本地或远端。
 - 有更新时工作区已有无关未提交变更。
 - `git add`、`git commit` 或 `git tag` 失败。
+- tag 修复模式下，本地已有同名 tag 但指向的 commit 与当前 `download.yaml` 条目不一致。
 
 无更新时脚本应清晰打印当前 `PatchVersion`、manifest 组合和“no update”结论。
 
@@ -232,8 +242,10 @@ tag=14161
 - 带 `branch` 的 beta 条目不作为默认分支去重依据。
 - manifest 文件名解析正确。
 - `steam.inf` 中 `PatchVersion` 解析正确。
+- 下载 `steam.inf` 时使用 `2347770` 的 manifest id 和只包含 `game\csgo\steam.inf` 的 filelist。
 - `-dry-run` 不写文件、不执行 git。
 - 有更新时 Git 命令顺序为 `add -> commit -> tag`。
+- main push 已成功但 tag 缺失时，脚本进入 tag 修复模式并输出需要 push 的 tag。
 - `-github-output` 正确写入 `updated=false` 或 `updated=true/tag=...`。
 - `ruamel.yaml` 写回后保留既有条目的行内注释。
 
@@ -249,6 +261,7 @@ uv run python -m unittest tests.test_bump_download tests.test_download_depot
 - DepotDownloader 输出文件名是脚本解析 manifest id 的关键依据，需要用明确的 glob 和 depot id 校验减少误判。
 - 工作区干净检查会让脚本在 runner 残留修改时失败，但这比误提交无关文件更安全。
 - 定时 workflow 推送 tag 会触发现有 build workflow，因此 bump workflow 只负责登记，不负责构建结果判断。
+- tag 修复模式只覆盖“main 已包含条目但 tag 缺失”的情况；如果远端 tag 已存在但 main 推送失败，现有构建仍可通过 tag 中的提交运行，main 同步问题需要人工处理或重新推送分支。
 
 ## 验收标准
 
