@@ -23,6 +23,15 @@ class TestBumpDownload(unittest.TestCase):
                 bump_download.find_manifest_id(Path(tmp), "2347771"),
             )
 
+    def test_parse_manifest_id_rejects_multiple_manifest_files(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp)
+            (path / "manifest_2347771_123.txt").write_text("", encoding="utf-8")
+            (path / "manifest_2347773_456.txt").write_text("", encoding="utf-8")
+
+            with self.assertRaises(bump_download.BumpError):
+                bump_download.find_manifest_id(path, "2347771")
+
     def test_parse_patch_version_from_steam_inf(self) -> None:
         text = "\n".join(
             [

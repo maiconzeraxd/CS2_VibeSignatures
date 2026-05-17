@@ -37,7 +37,7 @@ def patch_version_to_tag(patch_version: str) -> str:
 
 def find_manifest_id(depot_dir: Path, depot: str) -> str:
     """Find exactly one manifest id for a depot in an isolated directory."""
-    matches = sorted(depot_dir.glob(f"manifest_{depot}_*.txt"))
+    matches = sorted(depot_dir.glob("manifest_*.txt"))
     if not matches:
         raise BumpError(f"Manifest file not found for depot {depot}")
     if len(matches) > 1:
