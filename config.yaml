@@ -2609,6 +2609,35 @@ modules:
         expected_output:
           - CBaseModelEntity_SetRenderAttribute.{platform}.yaml
 
+      - name: find-CBaseModelEntity_GetScriptDescInternal
+        expected_output:
+          - CBaseModelEntity_GetScriptDescInternal.{platform}.yaml
+
+      - name: find-CBaseModelEntity_RegisteredScriptFuncs
+        expected_output:
+          - CBaseModelEntity_GetModelScale.{platform}.yaml
+          - CBaseModelEntity_Script_SetModelScale.{platform}.yaml
+          - CBaseModelEntity_ScriptLookupAttachment.{platform}.yaml
+          - CBaseModelEntity_ScriptGetAttachmentOrigin.{platform}.yaml
+          - CBaseModelEntity_ScriptGetAttachmentAngles.{platform}.yaml
+          - CBaseModelEntity_ScriptGetAttachmentForward.{platform}.yaml
+          - CBaseModelEntity_ScriptSetSize.{platform}.yaml
+          - CBaseModelEntity_ScriptSetModel.{platform}.yaml
+          - CBaseModelEntity_ScriptGetRenderAlpha.{platform}.yaml
+          - CBaseModelEntity_ScriptSetRenderAlpha.{platform}.yaml
+          - CBaseModelEntity_ScriptSetRenderMode.{platform}.yaml
+          - CBaseModelEntity_ScriptSetRenderColor.{platform}.yaml
+          - CBaseModelEntity_ScriptGetRenderColor.{platform}.yaml
+          - CBaseModelEntity_ScriptSetMaterialGroupHash.{platform}.yaml
+          - CBaseModelEntity_ScriptGetMaterialGroupHash.{platform}.yaml
+          - CBaseModelEntity_ScriptSetMeshGroupMask.{platform}.yaml
+          - CBaseModelEntity_ScriptGetMeshGroupMask.{platform}.yaml
+          - CBaseModelEntity_ScriptSetBodygroupByName.{platform}.yaml
+          - CBaseModelEntity_Script_SetBodygroup.{platform}.yaml
+          - CBaseModelEntity_Script_SetSkin.{platform}.yaml
+        expected_input:
+          - CBaseModelEntity_GetScriptDescInternal.{platform}.yaml
+
       - name: find-CEntityInstance_NetworkUpdateState_thunk
         expected_output:
           - CEntityInstance_NetworkUpdateState_thunk.{platform}.yaml
@@ -2917,9 +2946,9 @@ modules:
         expected_input:
           - CCSPlayerPawn_vtable.{platform}.yaml
 
-      - name: find-CCSPlayerPawn_OnItemEquip
+      - name: find-CCSPlayerPawn_OnSwitchWeapons
         expected_output:
-          - CCSPlayerPawn_OnItemEquip.{platform}.yaml
+          - CCSPlayerPawn_OnSwitchWeapons.{platform}.yaml
 
       - name: find-CCSPlayerPawn_ProcessSuicideAsKillReward
         expected_output:
@@ -3269,7 +3298,7 @@ modules:
         expected_output:
           - CCSPlayer_WeaponServices_SelectItem.{platform}.yaml
         expected_input:
-          - CCSPlayerPawn_OnItemEquip.{platform}.yaml
+          - CCSPlayerPawn_OnSwitchWeapons.{platform}.yaml
           - CCSPlayer_WeaponServices_vtable.{platform}.yaml
 
       - name: find-NetworkStateChanged
@@ -5006,6 +5035,111 @@ modules:
         alias:
           - CBaseModelEntity::SetRenderAttribute
 
+      - name: CBaseModelEntity_GetScriptDescInternal
+        category: func
+        alias:
+          - CBaseModelEntity::GetScriptDescInternal
+
+      - name: CBaseModelEntity_GetModelScale
+        category: func
+        alias:
+          - CBaseModelEntity::GetModelScale
+
+      - name: CBaseModelEntity_Script_SetModelScale
+        category: func
+        alias:
+          - CBaseModelEntity::Script_SetModelScale
+
+      - name: CBaseModelEntity_ScriptLookupAttachment
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptLookupAttachment
+
+      - name: CBaseModelEntity_ScriptGetAttachmentOrigin
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptGetAttachmentOrigin
+
+      - name: CBaseModelEntity_ScriptGetAttachmentAngles
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptGetAttachmentAngles
+
+      - name: CBaseModelEntity_ScriptGetAttachmentForward
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptGetAttachmentForward
+
+      - name: CBaseModelEntity_ScriptSetSize
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptSetSize
+
+      - name: CBaseModelEntity_ScriptSetModel
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptSetModel
+
+      - name: CBaseModelEntity_ScriptGetRenderAlpha
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptGetRenderAlpha
+
+      - name: CBaseModelEntity_ScriptSetRenderAlpha
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptSetRenderAlpha
+
+      - name: CBaseModelEntity_ScriptSetRenderMode
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptSetRenderMode
+
+      - name: CBaseModelEntity_ScriptSetRenderColor
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptSetRenderColor
+
+      - name: CBaseModelEntity_ScriptGetRenderColor
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptGetRenderColor
+
+      - name: CBaseModelEntity_ScriptSetMaterialGroupHash
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptSetMaterialGroupHash
+
+      - name: CBaseModelEntity_ScriptGetMaterialGroupHash
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptGetMaterialGroupHash
+
+      - name: CBaseModelEntity_ScriptSetMeshGroupMask
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptSetMeshGroupMask
+
+      - name: CBaseModelEntity_ScriptGetMeshGroupMask
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptGetMeshGroupMask
+
+      - name: CBaseModelEntity_ScriptSetBodygroupByName
+        category: func
+        alias:
+          - CBaseModelEntity::ScriptSetBodygroupByName
+
+      - name: CBaseModelEntity_Script_SetBodygroup
+        category: func
+        alias:
+          - CBaseModelEntity::Script_SetBodygroup
+
+      - name: CBaseModelEntity_Script_SetSkin
+        category: func
+        alias:
+          - CBaseModelEntity::Script_SetSkin
+
       - name: CEntityInstance_NetworkUpdateState_thunk
         category: func
         alias:
@@ -5337,10 +5471,10 @@ modules:
           - CCSPlayerPawn_PostThink
           - PostThink
 
-      - name: CCSPlayerPawn_OnItemEquip
+      - name: CCSPlayerPawn_OnSwitchWeapons
         category: func
         alias:
-          - CCSPlayerPawn::OnItemEquip
+          - CCSPlayerPawn::OnSwitchWeapons
 
       - name: CCSPlayerPawn_ProcessSuicideAsKillReward
         category: func
