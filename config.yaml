@@ -2001,6 +2001,73 @@ modules:
         expected_input:
           - CPrediction_PostNetworkDataReceived.{platform}.yaml
 
+      - name: find-CAM_Command_CommandHandler
+        expected_output:
+          - CAM_Command_CommandHandler.{platform}.yaml
+
+      - name: find-g_pCSGOInput
+        expected_output:
+          - g_pCSGOInput.{platform}.yaml
+        expected_input:
+          - CAM_Command_CommandHandler.{platform}.yaml
+
+      - name: find-ClientModeCSNormal_vtable
+        expected_output:
+          - ClientModeCSNormal_vtable.{platform}.yaml
+
+      - name: find-ClientModeCSNormal_Update
+        expected_output:
+          - ClientModeCSNormal_Update.{platform}.yaml
+        expected_input:
+          - ClientModeCSNormal_vtable.{platform}.yaml
+
+      - name: find-g_CSGOInput
+        expected_output:
+          - g_CSGOInput.{platform}.yaml
+        expected_input:
+          - ClientModeCSNormal_Update.{platform}.yaml
+
+      - name: find-CEntitySystem_ctor
+        expected_output:
+          - CEntitySystem_ctor.{platform}.yaml
+
+      - name: find-CEntitySystem_CreateEntitySystem
+        expected_output:
+          - CEntitySystem_CreateEntitySystem.{platform}.yaml
+        expected_input:
+          - CEntitySystem_ctor.{platform}.yaml
+          - CEntitySystem_Init.{platform}.yaml
+
+      - name: find-g_pEntitySystem
+        expected_output:
+          - g_pEntitySystem.{platform}.yaml
+        expected_input:
+          - CEntitySystem_CreateEntitySystem.{platform}.yaml
+
+      - name: find-CEntitySystem_Init
+        expected_output:
+          - CEntitySystem_Init.{platform}.yaml
+
+      - name: find-CSkeletonInstance_vtable
+        expected_output:
+          - CSkeletonInstance_vtable.{platform}.yaml
+
+      - name: find-CSkeletonInstance_PostDataUpdate
+        expected_output:
+          - CSkeletonInstance_PostDataUpdate.{platform}.yaml
+        expected_input:
+          - CSkeletonInstance_vtable.{platform}.yaml
+
+      - name: find-m_simulationState_members-windows
+        platform: windows
+        expected_output:
+          - CSkeletonInstance_m_simulationState_m_nTotalTransformCount.{platform}.yaml
+          - CSkeletonInstance_m_simulationState_m_nBoneCount.{platform}.yaml
+          - CSkeletonInstance_m_simulationState_m_nAttachmentCount.{platform}.yaml
+          - CSkeletonInstance_m_modelState_m_hModel.{platform}.yaml
+        expected_input:
+          - CSkeletonInstance_PostDataUpdate.{platform}.yaml
+
     symbols:
       - name: CLoopModeGame_RegisterEventMapInternal
         category: func
@@ -2321,6 +2388,78 @@ modules:
         category: vfunc
         alias:
           - IEngineServiceMgr::GetActiveLoopClientServerMode
+
+      - name: CAM_Command_CommandHandler
+        category: func
+
+      - name: g_pCSGOInput
+        category: gv
+
+      - name: ClientModeCSNormal_vtable
+        category: vtable
+
+      - name: ClientModeCSNormal_Update
+        category: vfunc
+        alias:
+          - ClientModeCSNormal::Update
+
+      - name: g_CSGOInput
+        category: gv
+
+      - name: CEntitySystem_ctor
+        category: func
+        alias:
+          - CEntitySystem::CEntitySystem
+
+      - name: CEntitySystem_CreateEntitySystem
+        category: func
+
+      - name: g_pEntitySystem
+        category: gv
+
+      - name: CEntitySystem_Init
+        category: func
+        alias:
+          - CEntitySystem::Init
+
+      - name: CSkeletonInstance
+        category: struct
+
+      - name: CSkeletonInstance_vtable
+        category: vtable
+
+      - name: CSkeletonInstance_PostDataUpdate
+        category: vfunc
+        alias:
+          - CSkeletonInstance::PostDataUpdate
+
+      - name: CSkeletonInstance_m_simulationState_m_nTotalTransformCount
+        category: structmember
+        struct: CSkeletonInstance
+        member: m_simulationState.m_nTotalTransformCount
+        alias:
+          - CSkeletonInstance::m_simulationState.m_nTotalTransformCount
+
+      - name: CSkeletonInstance_m_simulationState_m_nBoneCount
+        category: structmember
+        struct: CSkeletonInstance
+        member: m_simulationState.m_nBoneCount
+        alias:
+          - CSkeletonInstance::m_simulationState.m_nBoneCount
+
+      - name: CSkeletonInstance_m_simulationState_m_nAttachmentCount
+        category: structmember
+        struct: CSkeletonInstance
+        member: m_simulationState.m_nAttachmentCount
+        alias:
+          - CSkeletonInstance::m_simulationState.m_nAttachmentCount
+
+      - name: CSkeletonInstance_m_modelState_m_hModel
+        category: structmember
+        struct: CSkeletonInstance
+        member: m_modelState.m_hModel
+        alias:
+          - CSkeletonInstance::m_modelState.m_hModel
 
   - name: server
     path_windows: game/csgo/bin/win64/server.dll
@@ -4262,6 +4401,23 @@ modules:
       - name: find-ShowHudHint
         expected_output:
           - ShowHudHint.{platform}.yaml
+
+      - name: find-CEntitySystem_ctor
+        expected_output:
+          - CEntitySystem_ctor.{platform}.yaml
+
+      - name: find-CEntitySystem_CreateEntitySystem
+        expected_output:
+          - CEntitySystem_CreateEntitySystem.{platform}.yaml
+        expected_input:
+          - CEntitySystem_ctor.{platform}.yaml
+          - CEntitySystem_Init.{platform}.yaml
+
+      - name: find-g_pEntitySystem
+        expected_output:
+          - g_pEntitySystem.{platform}.yaml
+        expected_input:
+          - CEntitySystem_CreateEntitySystem.{platform}.yaml
 
       - name: find-CEntitySystem_Init
         expected_output:
@@ -7045,6 +7201,17 @@ modules:
         category: func
         alias:
           - UTIL_GetPlayerControllerForEntity
+
+      - name: CEntitySystem_ctor
+        category: func
+        alias:
+          - CEntitySystem::CEntitySystem
+
+      - name: CEntitySystem_CreateEntitySystem
+        category: func
+
+      - name: g_pEntitySystem
+        category: gv
 
       - name: CEntitySystem_Init
         category: func
