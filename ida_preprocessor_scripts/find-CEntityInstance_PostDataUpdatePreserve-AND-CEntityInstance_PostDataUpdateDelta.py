@@ -34,7 +34,7 @@ GENERATE_YAML_DESIRED_FIELDS = [
     (
         "CEntityInstance_PostDataUpdatePreserve",
         [
-            "func_name"
+            "func_name",
             "vfunc_sig",
             "vfunc_offset",
             "vfunc_index",
